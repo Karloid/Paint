@@ -131,7 +131,7 @@ public class ApplicationView extends View {
         density = getResources().getDisplayMetrics().density;
         this.setBackgroundColor(Color.GRAY);
         paint.setStrokeWidth(5 * density);
-        image = Bitmap.createBitmap(500, 500, Bitmap.Config.ARGB_4444);
+        image = Bitmap.createBitmap(1200, 500, Bitmap.Config.ARGB_4444);
         canvas = new Canvas(image);
         canvas.drawColor(Color.WHITE);
 
