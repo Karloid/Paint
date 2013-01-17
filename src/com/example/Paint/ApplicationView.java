@@ -1,23 +1,21 @@
 package com.example.Paint;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.*;
+import android.os.Environment;
 import android.os.Handler;
 import android.util.FloatMath;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 
+import java.io.*;
 import java.util.ArrayList;
+import java.util.Calendar;
 
-/**
- * Created with IntelliJ IDEA.
- * User: krld
- * Date: 19.12.12
- * Time: 23:13
- * To change this template use File | Settings | File Templates.
- */
 public class ApplicationView extends View {
     Paint paint = new Paint();
     static float density;
@@ -35,7 +33,6 @@ public class ApplicationView extends View {
                 fingers.get(0).enabledLongTouch = false;
                 drawingMode = !drawingMode;
             }
-
         }
     };
     public Point cursor;
@@ -56,7 +53,7 @@ public class ApplicationView extends View {
             if (System.currentTimeMillis() - finger.wasDown < 100 && finger.wasDown - lastTapTime < 200 &&
                     finger.wasDown - lastTapTime > 0 && checkDistance(finger.now, lastTapPosition) < density * 25) {
                 AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-                String[] items = {"Рисовать", "Перемещать", "Красный", "Зелёный", "Синий", "Голубой", "Чёрный", "Белый", "Жёлый", "Розовый"};
+                String[] items = {"Рисовать", "Перемещать", "Красный", "Зелёный", "Синий", "Голубой", "Чёрный", "Белый", "Жёлтый", "Розовый", "Сохранить картинку"};
                 final AlertDialog dialog = builder.setTitle("Выберите цвет кисти").setItems(items, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
                         int[] colors = {Color.RED, Color.GREEN, Color.BLUE, 0xFF99CCFF, Color.BLACK, Color.WHITE,
@@ -65,7 +62,21 @@ public class ApplicationView extends View {
                             drawingMode = true;
                         } else if (which == 1) {
                             drawingMode = false;
-                        } else {
+                        } else if (which == 10) {
+                            try {
+                                File dir = new File("sdcard/paint");
+                                dir.mkdir();
+                                FileOutputStream out = new FileOutputStream(dir + "/" +
+                                        +Calendar.getInstance().getTimeInMillis() + ".png");
+                                image.compress(Bitmap.CompressFormat.PNG, 90, out);
+                            } catch (FileNotFoundException e) {
+                                e.printStackTrace();
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+                        } else
+
+                        {
                             paint.setColor(colors[which - 2]);
                         }
                     }
