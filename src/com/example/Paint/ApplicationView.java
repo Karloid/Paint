@@ -64,6 +64,10 @@ public class ApplicationView extends View {
                             drawingMode = false;
                         } else if (which == 10) {
                             try {
+                                /*
+                                MediaStore.Images.Media
+                                    .insertImage(context.getContentResolver(), bitmap, null, image.getSignature())
+                                */
                                 File dir = new File("sdcard/paint");
                                 dir.mkdir();
                                 FileOutputStream out = new FileOutputStream(dir + "/" +
